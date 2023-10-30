@@ -1,3 +1,3 @@
-module github.com/gtuk/discordwebhook
+module github.com/digman/discordwebhook
 
-go 1.15
+go 1.19
