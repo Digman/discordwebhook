@@ -39,7 +39,7 @@ func SendMessage(url string, message Message) error {
 			return nil
 		case http.StatusTooManyRequests:
 			// Rate limit exceeded, retry after backoff duration
-			resetAfter := resp.Header.Get("X-RateLimit-Reset-After")
+			resetAfter := resp.Header.Get("Reset-After")
 			parsedAfter, err := strconv.ParseFloat(resetAfter, 64)
 			if err != nil {
 				return err
