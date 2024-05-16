@@ -7,23 +7,14 @@ import (
 	"fmt"
 	"math"
 	"net/http"
-	"net/url"
 	"strconv"
 	"time"
 )
 
-func SendMessage(url string, message Message, proxy *url.URL) error {
+func SendMessage(url string, message Message) error {
 	// Validate parameters
 	if url == "" {
 		return errors.New("empty Webhook URL")
-	}
-
-	client := &http.Client{}
-
-	if proxy != nil {
-		client.Transport = &http.Transport{
-			Proxy: http.ProxyURL(proxy),
-		}
 	}
 
 	for {
@@ -34,15 +25,8 @@ func SendMessage(url string, message Message, proxy *url.URL) error {
 			return err
 		}
 
-		request, err := http.NewRequest("POST", url, payload)
-		if err != nil {
-			return err
-		}
-
-		request.Header.Set("Content-Type", "application/json")
-
 		// Make the HTTP request
-		resp, err := client.Do(request)
+		resp, err := http.Post(url, "application/json", payload)
 
 		if err != nil {
 			return err
